@@ -180,5 +180,5 @@ Pull requests are welcome! For major changes, please open an issue first to disc
 
 ---
 
-> ⚡ Built with love by \Vedant Pisal – striving for clean, scalable Go code.
+> ⚡ Built with love by \Vedant Pisal Deshmukh – striving for clean, scalable Go code.
 
