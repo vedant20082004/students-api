@@ -12,6 +12,7 @@ import (
 	"time"
 
 	"github.com/vedant20082004/students-api/internal/config"
+	"github.com/vedant20082004/students-api/internal/http/handlers/student"
 )
 
 func main() {
@@ -26,9 +27,7 @@ func main() {
 	// setupr router
 	router := http.NewServeMux()
 
-	router.HandleFunc("GET /", func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte("WELCOME TO STUDENTS API"))
-	})
+	router.HandleFunc("POST /api/students",student.New())
 
 
 	// setup server
