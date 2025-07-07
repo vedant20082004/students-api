@@ -23,7 +23,7 @@ func main() {
 
 
 	// logger setup (if not using inbuilt)
-	// database setup
+	// database -> setup
 	storage, err := sqlite.New(cfg)
 	if err != nil{
 		log.Fatal(err)
@@ -33,14 +33,16 @@ func main() {
 
 
 
-	// setupr router
+	// setup -> router
 	router := http.NewServeMux()
 
 	router.HandleFunc("POST /api/students",student.New(storage))
 	router.HandleFunc("GET /api/students/{id}", student.GetById(storage))
 	router.HandleFunc("GET /api/students", student.GetList(storage))
+	router.HandleFunc("PUT /api/students", student.UpdateList(storage))
+	router.HandleFunc("DELETE /api/students/{id}", student.DeleteList(storage))
 
-	// setup server
+	// setup -> server
 
 	server := http.Server{
 		Addr: cfg.Addr,

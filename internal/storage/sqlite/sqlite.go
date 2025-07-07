@@ -3,6 +3,7 @@ package sqlite
 import (
 	"database/sql"
 	"fmt"
+	// "log/slog"
 
 	"github.com/vedant20082004/students-api/internal/config"
 	"github.com/vedant20082004/students-api/internal/types"
@@ -63,10 +64,6 @@ func (s *Sqlite) CreateStudent(name string, email string, age int) (int64, error
 
 	return lastId, nil
 
-
-
-	return 0, nil
-
 }
 
 func (s *Sqlite) GetStudentById(id int64) (types.Student, error){
@@ -123,8 +120,42 @@ func(s *Sqlite) GetStudents() ([]types.Student,error){
 	}
 
 	return students,nil
-
-
-
-
 }
+
+func(s *Sqlite) UpdateStudent(id int64, name string, email string, age int) (types.Student, error){
+
+	statement,err := s.Db.Prepare("UPDATE students SET name = ?, email = ?, age = ? WHERE id = ?")
+
+	if err!=nil{
+		return types.Student{},err
+	}
+
+	defer statement.Close()
+
+	_, err = statement.Exec(name, email, age, id)
+	if err != nil{
+		return types.Student{},err
+	}
+
+	return s.GetStudentById(id)
+}
+
+func(s *Sqlite) DeleteStudent(id int64) (string, error) {
+	
+	statement, err := s.Db.Prepare("DELETE FROM students WHERE id=?")
+	if err != nil {
+		return "ERROR ENCOUNTERED", err
+	}
+	defer statement.Close()
+
+	_, err = statement.Exec(id)
+	if err != nil {
+		return "ERROR ENCOUNTERED", err
+	}
+
+	// slog.Info("DELETED SUCCESSFULLY")
+
+	return "DELETED SUCCESSFULLY",nil
+}
+
+
